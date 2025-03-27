@@ -35,7 +35,7 @@ CẤU TRÚC GAME "PARADISE SEEKER" - BẢN MỞ RỘNG
   +activateImmunity()// kích hoạt miễn nhiễm
   +update()// kiểm tra thời gian miễn nhiễm
   +damagePlayer(int attack)// chỉ nhận sát thunogw nếu không miễn nhiễm
-■ FireDrake (Draconis)
+■ Vua rồngrồng (Draconis)
 - Thuộc tính riêng:
 *dành cho chiêu 1
   + long lastEnergyBallTime = 0;  // Thời điểm lần cuối dùng skill
@@ -81,23 +81,35 @@ CẤU TRÚC GAME "PARADISE SEEKER" - BẢN MỞ RỘNG
 +damagePlayer()// xử lý sát thương
 4.Vua paradise
 -thuộc tính riêng:
+*dành cho chiêu 1
 + long lastSickleAttackTime = 0;
 + ArrayList<SickleEnergy> sickles = new ArrayList<>();
-
+*dành cho chiêu 2
++ boolean hasRevived = false;
++ int originalWidth, originalHeight;
+*dành cho chiêu 3
++ long lastMoveTime = 0;
++ boolean isVulnerable = false;
+-Phương thức riêng:
+*dành cho chiêu 1
++SickleEnergy(GamePanel gp) //projecttile mới
++update()//di chuyển theo hướng, xử lí va chạm với player
++sickleAttack()// tạo 3 lưỡi liềm theo các hướng khác nhau
+*dành cho chiêu 2
++update()// cập nhật để hồi sinh
++revive()/reset trạng thái và tăng kích thước
+*dành cho chiêu 3
++updateVulnerability()// kiểm tra trạng thái
++damagePlayer(int attack) // nhận damage của player
 2. HỆ THỐNG NPC
 --------------------------------
-2.1 Lớp NPC (cha)
-- Thuộc tính:
-  • String name
-  • float x, y
-  • String[] dialogues
-  • boolean isInteractable
-  • Texture portrait
+2.1 Lớp NPC_Merchant (cha) kế thừa từ lớp Entity
+-thuộc tính giống lớp entity
+-Phương thức:
++setDialpgue()// thiết lập hội thoại
++speak()//hiển thị hội thoại
++setItem()//
 
-- Phương thức:
-  • interact(Player) - Mở hộp thoại
-  • giveQuest() - Giao nhiệm vụ phụ
-  • trade() - Mở cửa hàng
 
 2.2 Các NPC quan trọng:
 ■ Titan Elder (Titania)
