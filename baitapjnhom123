@@ -84,6 +84,7 @@ d.RedemptionGhost extends NPC {
   + skillHotbar: Skill[4]
   + currentEnergy: float
   + playerState: (Normal/Stealth/Invincible)
+  + private Map<String, Vector2> savedPositions = new HashMap<>();
 - Phương thức:
   + useSkill() // sử dụng kĩ năng
   + interact() //Hiển thị thoại
@@ -136,21 +137,37 @@ III. WORLD SYSTEMS
 --------------------------------
 1. WorldManager
 - Thuộc tính:
+  + Map<String, Level> allLevels = new HashMap<>()
+  + MapConnection[] mapConnections
+  + TransitionHandler transitionHandler
   + currentLevel: Level
   + levelOrder: Level[]
 - Phương thức:
+  + changeLevel(String newLevelId, Vector2 spawnPosition) // Chuyển map tại vị trí chỉ định
   + loadLevel() //Tải tilemap, spawn điểm, hiệu ứng môi trường
   + updateWorldState()//cập nhật trạng thái tổng thể của thế giới game,
-
+  + getConnectedLevels(String currentLevelId) // Lấy danh sách map kết nối
 2. Level (Abstract)
 - Thuộc tính:
+  +String levelId; // Định danh duy nhất
+  +LevelConnection[] exitPoints; // Các điểm có thể thoát sang map khác
+  + boolean isPersistent;// giữ trạng thái khi rời 
   + tilemap: Tilemap
   + spawnPoints: SpawnPoint[]
   + environmentalEffects: EnvEffect[]
 - Phương thức:
   + spawnEntities()//Khởi tạo và đặt các entity 
   + checkCompletion()//Kiểm tra điều kiện hoàn thành level
-
+  + getSpawnPoint(String pointId) // Lấy vị trí spawn cụ thể
+  + onPlayerExit(Player player, String exitId) // Xử lý khi player rời map
+3.Transition System // quản lí hiệu ứng chuyển 
+-Thuộc tính:
+  + float transitionDuration = 1.0f;
+  + bool isTransitioning;
+- Phương thức:
+    + startTransition(Level from, Level to, Vector2 spawnPosition) //Bắt đầu chuyển cảnh
+    + updateTransition(float deltaTime) //ập nhật chuyển cảnh 
+    + renderTransitionEffect()//  Hoàn tất chuyển cảnh
 ■ TempleLevel:
   + puzzleManager: PuzzleSystem
 ■ TitaniaLevel:
